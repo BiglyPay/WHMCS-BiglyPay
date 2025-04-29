@@ -58,10 +58,8 @@ BiglyPay is a cryptocurrency payment gateway module for WHMCS that enables your 
    - **Company Logo:**  
      Enter the URL or path of the logo that will appear on the remote checkout page.
 
-   - **Payment Mode:**  
-     Select the payment mode:  
-     - **Inline:** Displays payment details directly within WHMCS.  
-     - **Remote:** Redirects your customers to a hosted BiglyPay payment page.
+   - **Display Name:**  
+     Enter the name you would like to show in client area, example: Crypto Payments 
 
    These settings allow you to customize how BiglyPay interacts with your WHMCS installation. For further configuration—such as managing your API keys and callbacks—please visit the BiglyPay control panel at [https://biglypay.com/settings.php](https://biglypay.com/settings.php).
 
