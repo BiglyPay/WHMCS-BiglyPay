@@ -61,12 +61,16 @@ if (!$invoiceId) {
 
 // Handle fully paid and partial payments
 if ($status === "Confirmed") {
-    // Create transaction entry in WHMCS
-    addInvoicePayment($invoiceId, $txHash, $receivedAmount, 0, "biglypay");
-    // Apply the payment to the invoice
+    $invoice = localAPI('GetInvoice', ['invoiceid' => $invoiceId]);
+    $invoiceTotal = (float) $invoice['total'];
+    $tolerance = 0.05;
+    $diff = abs($invoiceTotal - $receivedAmount);
 
-    // Log payment for reference
-    logTransaction("biglypay", $input, "Confirmed Receive of $receivedAmount");
+    // If within tolerance, round up to invoice total so WHMCS marks it paid cleanly
+    $paymentAmount = ($diff <= $tolerance) ? $invoiceTotal : $receivedAmount;
+
+    addInvoicePayment($invoiceId, $txHash, $paymentAmount, 0, "biglypay");
+    logTransaction("biglypay", $input, "Confirmed: received $receivedAmount, applied $paymentAmount");
 
     http_response_code(200);
     echo "Payment processed successfully";
